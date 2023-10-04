@@ -11,6 +11,8 @@ import os
 import subprocess
 import pyautogui
 import time
+import tkinter as tk
+from tkinter import messagebox
 
 def is_git_installed():
     try:
@@ -63,6 +65,25 @@ def install_git():
 
         # Completion message
         pyautogui.alert("Git has successfully installed!", "Git Installation")
+
+def install_button_clicked():
+    install_git()
+    messagebox.showinfo("Git Installation", "Git installation process has started.")
+
+    # Create Tkinter window
+    window = tk.TK()
+    window.title("Git Installer")
+
+    # Create label
+    label = tk.Label(window, text="Install Git")
+    label.pack(pady=20)
+
+    # Create install button
+    install_button = tk.Button(window, text="Install Git", command=install_button_clicked)
+    install_button.pack()
+
+    # Run Tkinter event loop
+    window.mainloop()
 
 if __name__ == "__main__":
     install_git()
