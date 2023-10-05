@@ -67,16 +67,23 @@ def install_git():
         pyautogui.alert("Git has successfully installed!", "Git Installation")
 
 def install_button_clicked():
-    install_git()
-    messagebox.showinfo("Git Installation", "Git installation process has started.")
+    # Check if Git is installed before installing
+    if is_git_installed():
+        messagebox.showinfo("Git Installtion", "Git is already installed")
+    else:
+        install_git()
+        messagebox.showinfo("Git Installation", "Git installion has started.")
 
+if __name__ == "__main__":
     # Create Tkinter window
-    window = tk.TK()
+    window = tk.Tk()
     window.title("Git Installer")
 
+    window.geometry("800x500")
+
     # Create label
-    label = tk.Label(window, text="Install Git")
-    label.pack(pady=20)
+    label = tk.Label(window, text="Git Installer")
+    label.pack(pady=40)
 
     # Create install button
     install_button = tk.Button(window, text="Install Git", command=install_button_clicked)
@@ -84,6 +91,3 @@ def install_button_clicked():
 
     # Run Tkinter event loop
     window.mainloop()
-
-if __name__ == "__main__":
-    install_git()
