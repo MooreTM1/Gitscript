@@ -20,6 +20,8 @@ def is_git_installed():
         return True
     except subprocess.CalledProcessError:
         return False
+    except FileNotFoundError:
+        return False
     
 def install_git():
     # Check if Git is installed
