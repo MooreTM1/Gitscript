@@ -1,6 +1,7 @@
 import subprocess
 import tkinter as tk
 from tkinter import messagebox, simpledialog
+import os
 
 def check_local_repository():
     try:
@@ -12,17 +13,25 @@ def check_local_repository():
     except FileNotFoundError:
         return False
 
-def create_local_repository():
-    # Initialize a new Git repository
-    subprocess.run(['git', 'init'])
+def create_local_repository(directory):
+    # Initialize a new Git repository in specified directory
+    subprocess.run(['git', 'init', directory])
 
 def configure_git():
-    # Check if local repository already exists
     if check_local_repository():
-        messagebox.showinfo("Git Configuration", "Local Git repository already exists.")
-    else:
-        # Create new local Git repository
-        create_local_repository()
+        # Git repository already extist
+        create_new_repo = messagebox.askyesno("Git Configuration", "A Git repository already exists. Would you like to create another one?")
+
+        if not create_new_repo:
+            return
+    # Choose location for Git repository directory
+    directory = simpledialog.askstring("Git Configuration", "Enter path to directory for Git repository: ")
+
+    if not directory:
+        return
+    
+    # Create new local Git repository
+    create_local_repository(directory)
 
     # Create Tkinter window
     window = tk.Tk()
@@ -30,14 +39,14 @@ def configure_git():
 
     # Create labels and entry fields for username and email
     name_label = tk.Label(window, text="Enter your name (first and last name): ")
-    name_label.pack(padx=10, pady=5)
+    name_label.pack(padx=30, pady=15)
     name_entry = tk.Entry(window)
-    name_entry.pack(padx=10, pady=5)
+    name_entry.pack(padx=30, pady=15)
 
     email_label = tk.Label(window, text="Enter your email (GitHub account email): ")
-    email_label.pack(padx=10, pady=5)
+    email_label.pack(padx=30, pady=15)
     email_entry = tk.Entry(window)
-    email_entry.pack(padx=10, pady=5)
+    email_entry.pack(padx=30, pady=15)
 
     # Git configurations set and display success message
     def set_git_configurations():
