@@ -18,7 +18,7 @@ import urllib.request
 
 def is_git_installed():
     try:
-        subprocess.check_output(['git', '--version'])
+        subprocess.check_output(['git', '--version'], stderr=subprocess.DEVNULL)
         return True
     except subprocess.CalledProcessError:
         return False
