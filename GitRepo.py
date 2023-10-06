@@ -21,42 +21,48 @@ def configure_git():
     if check_local_repository():
         messagebox.showinfo("Git Configuration", "Local Git repository already exists.")
     else:
-        # Create Tkinter window
-        window = tk.Tk()
-        window.title("Git Configuration")
+        # Create new local Git repository
+        create_local_repository()
 
-        # Create labels and entry fields for username and email
-        name_label = tk.Label(window, text="Enter your name (first and last name): ")
-        name_label.pack(padx=10, pady=5)
-        name_entry = tk.Entry(window)
-        name_entry.pack(padx=10, pady=5)
+    # Create Tkinter window
+    window = tk.Tk()
+    window.title("Git Configuration")
 
-        email_label = tk.Label(window, text="Enter your email (GitHub account email): ")
-        email_label.pack(padx=10, pady=5)
-        email_entry = tk.Entry(window)
-        email_entry.pack(padx=10, pady=5)
+    # Create labels and entry fields for username and email
+    name_label = tk.Label(window, text="Enter your name (first and last name): ")
+    name_label.pack(padx=10, pady=5)
+    name_entry = tk.Entry(window)
+    name_entry.pack(padx=10, pady=5)
 
-        # Git configurations set and display success message
-        def set_git_configurations():
-            name = name_entry.get()
-            email = email_entry.get()
+    email_label = tk.Label(window, text="Enter your email (GitHub account email): ")
+    email_label.pack(padx=10, pady=5)
+    email_entry = tk.Entry(window)
+    email_entry.pack(padx=10, pady=5)
 
-            # Set Git username and email
-            subprocess.run(['git', 'config', '--global', 'user.name', name])
-            subprocess.run(['git', 'config', '--global', 'user.email', email])
+    # Git configurations set and display success message
+    def set_git_configurations():
+        name = name_entry.get()
+        email = email_entry.get()
 
-            # Set default branch to main
-            subprocess.run(['git', 'config', '--global', 'init.defaultBranch', 'main'])
+        # Set Git username and email
+        subprocess.run(['git', 'config', '--global', 'user.name', name])
+        subprocess.run(['git', 'config', '--global', 'user.email', email])
 
-            # Close Tkinter window
-            window.destroy()
+        # Set default branch to main
+        subprocess.run(['git', 'config', '--global', 'init.defaultBranch', 'main'])
 
-            # Display success message
-            messagebox.showinfo("Git Configuration", "Local Git repository has been made.")
+        # Close Tkinter window
+        window.destroy()
 
-        # Create "Configure Git" button
-        configure_button = tk.Button(window, text="Cofigure Git", command=set_git_configurations)
-        configure_button.pack(pady=10)
+        # Display success message
+        messagebox.showinfo("Git Configuration", "Local Git repository has been made.")
+
+    # Create "Configure Git" button
+    configure_button = tk.Button(window, text="Cofigure Git", command=set_git_configurations)
+    configure_button.pack(pady=10)
+
+    # Run Tkinter event loop
+    window.mainloop()
 
 if __name__ == "__main__":
     configure_git()
