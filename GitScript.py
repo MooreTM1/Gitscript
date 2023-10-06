@@ -14,6 +14,7 @@ import time
 import tkinter as tk
 from tkinter import messagebox
 from pywinauto import Application
+import urllib.request
 
 def is_git_installed():
     try:
@@ -24,6 +25,14 @@ def is_git_installed():
     except FileNotFoundError:
         return False
     
+def download_git_installer():
+    installer_url = 'https://github.com/MooreTM1/Gitscript/raw/main/Git-2.42.0.2-64-bit.exe'
+    installer_path = 'Git-2.42.0.2-64-bit.exe'
+
+    # Download Git installer
+    urllib.request.urlretrieve(installer_url, installer_path)
+    return installer_path
+
 def install_git():
     # Check if Git is installed
     if is_git_installed():
@@ -67,6 +76,7 @@ def install_git():
         
         # Completion message
         pyautogui.alert("Git has successfully installed!", "Git Installation")
+        os.remove(installer_path) # Remove installer after installation
 
 def install_button_clicked():
     # Check if Git is installed before installing
