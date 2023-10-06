@@ -52,5 +52,5 @@ def configure_git():
         configure_button = tk.Button(window, text="Cofigure Git", command=set_git_configurations)
         configure_button.pack(pady=10)
 
-    if __name__ == "__main__":
-        configure_git()
+if __name__ == "__main__":
+    configure_git()
