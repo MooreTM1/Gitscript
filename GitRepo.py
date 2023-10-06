@@ -9,6 +9,8 @@ def check_local_repository():
         return True
     except subprocess.CalledProcessError:
         return False
+    except FileNotFoundError:
+        return False
 
 def configure_git():
     # Check if local repository already exists
