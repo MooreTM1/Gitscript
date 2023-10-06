@@ -35,7 +35,7 @@ def install_git():
         print("Installing Git...")
         
         # Run Git installer
-        installer_path = 'Git-2.42.0.2-64-bit.exe'
+        installer_path = 'C:\Scripts\Gits\Git-2.42.0.2-64-bit.exe'
         app = Application(backend="uia").start(installer_path)
 
         # Git Setup Wizard to appear
