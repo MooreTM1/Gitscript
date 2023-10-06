@@ -13,6 +13,7 @@ import pyautogui
 import time
 import tkinter as tk
 from tkinter import messagebox
+from pywinauto import Application
 
 def is_git_installed():
     try:
@@ -34,37 +35,36 @@ def install_git():
         print("Installing Git...")
         
         # Run Git installer
-        subprocess.Popen(['Git-2.42.0.2-64-bit.exe'])
-        time.sleep(5) # Installer to start wait time
+        installer_path = 'Git-2.42.0.2-64-bit.exe'
+        app = Application(backend="uia").start(installer_path)
 
-        # UAC (User Account Control) promt
-        pyautogui.press('enter')
-
-        # Git Setup Wizard setup
-        time.sleep(2) # Wait for setup window to appear
-        pyautogui.press('enter') # Accept GNU General Public License
-        pyautogui.press('tab') # Move to Select Destination Location
-        pyautogui.write('C:\\Program Files\\Git') # Set destination location
-        pyautogui.press('enter')
-        pyautogui.press('enter') # Accept default components
-        pyautogui.press('enter') # Accept default Start Menu folder
-        pyautogui.press('enter') # Use default editor
-        pyautogui.press('enter') # Let Git decide initial branch
-        pyautogui.press('enter') # Use Git from command line and thired-party software
-        pyautogui.press('enter') # Use bundled OpenSSH
-        pyautogui.press('enter') # Use OpenSSL library for HTTPS
-        pyautogui.press('enter') # Configure line ending conversions
-        pyautogui.press('enter') # Configure terminal emulator
-        pyautogui.press('enter') # Choose default 'git pull' behavior
-        pyautogui.press('enter') # Choose Git Credential Manager Core
-        pyautogui.press('enter') # Enable file system caching
-        pyautogui.press('enter') # Configure experimental options
-        pyautogui.press('enter') # Complete Git Setup Wizard
+        # Git Setup Wizard to appear
+        dlg = app['Git Setup Wizard']
+        dlg.wait('visible', timeout=60)
+        
+        # Installation automated steps
+        dlg.type_keys('{ENTER}') # Accept GNU General Public License
+        dlg.type_keys('{TAB}') # Move to Select Destination Location
+        dlg.type_keys('C:\\Program Files\\Git') # Set destination location
+        dlg.type_keys('{ENTER}')
+        dlg.type_keys('{ENTER}') # Accept default components
+        dlg.type_keys('{ENTER}') # Accept default Start Menu folder
+        dlg.type_keys('{ENTER}') # Use default editor
+        dlg.type_keys('{ENTER}') # Let Git decide initial branch
+        dlg.type_keys('{ENTER}') # Use Git from command line and thired-party software
+        dlg.type_keys('{ENTER}') # Use bundled OpenSSH
+        dlg.type_keys('{ENTER}') # Use OpenSSL library for HTTPS
+        dlg.type_keys('{ENTER}') # Configure line ending conversions
+        dlg.type_keys('{ENTER}') # Configure terminal emulator
+        dlg.type_keys('{ENTER}') # Choose default 'git pull' behavior
+        dlg.type_keys('{ENTER}') # Choose Git Credential Manager Core
+        dlg.type_keys('{ENTER}') # Enable file system caching
+        dlg.type_keys('{ENTER}') # Configure experimental options
+        dlg.type_keys('{ENTER}') # Complete Git Setup Wizard
 
         # Installation finish wait time
-        while "Completing Git Setup Wizard" not in subprocess.check_output(['tasklist']).decode('utf-8'):
-            time.sleep(2)
-
+        app.wait_not('visible', timeout=600)
+        
         # Completion message
         pyautogui.alert("Git has successfully installed!", "Git Installation")
 
