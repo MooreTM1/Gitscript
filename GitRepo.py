@@ -12,6 +12,10 @@ def check_local_repository():
     except FileNotFoundError:
         return False
 
+def create_local_repository():
+    # Initialize a new Git repository
+    subprocess.run(['git', 'init'])
+
 def configure_git():
     # Check if local repository already exists
     if check_local_repository():
