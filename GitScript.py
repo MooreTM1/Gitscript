@@ -27,11 +27,10 @@ def is_git_installed():
     
 def download_git_installer():
     installer_url = 'https://github.com/MooreTM1/Gitscript/raw/main/Git-2.42.0.2-64-bit.exe'
-    installer_path = 'Git-2.42.0.2-64-bit.exe'
 
     # Download Git installer
-    urllib.request.urlretrieve(installer_url, installer_path)
-    return installer_path
+    install_path, _ = urllib.request.urlretrieve(installer_url)
+    return install_path
 
 def install_git():
     # Check if Git is installed
