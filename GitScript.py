@@ -16,6 +16,9 @@ from tkinter import messagebox
 from pywinauto import Application
 import urllib.request
 
+# Define app as global variable
+app = None
+
 def is_git_installed():
     try:
         subprocess.check_output(['git', '--version'], stderr=subprocess.DEVNULL)
@@ -33,6 +36,8 @@ def download_git_installer():
     return install_path
 
 def install_git():
+    global app # Declare app as global variable
+
     # Check if Git is installed
     if is_git_installed():
         print("Git is already installed.")
@@ -44,7 +49,14 @@ def install_git():
         
         # Run Git installer
         installer_path = download_git_installer()
-        app = Application(backend="uia").start(installer_path)
+        try:
+            subprocess.run([installer_path], check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Installation failed: {e}")
+            return
+        
+        # Initialize Git Setup Wizard application
+        app = Application(backend="uia").connect(path=installer_path)
 
         # Git Setup Wizard to appear
         dlg = app['Git Setup Wizard']
@@ -74,7 +86,7 @@ def install_git():
         app.wait_not('visible', timeout=600)
         
         # Completion message
-        pyautogui.alert("Git has successfully installed!", "Git Installation")
+        print("Git has successfully installed")
         os.remove(installer_path) # Remove installer after installation
 
 def install_button_clicked():
